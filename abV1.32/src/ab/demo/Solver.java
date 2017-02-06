@@ -19,17 +19,19 @@ public class Solver {
 	//Genera una teoria navie y para un determinado estado.
 	public void generarTeoriaNaive(Estado estado_inicial) {
 		Teoria teoria_inicial = new Teoria(estado_inicial);
-		teoria_inicial.setCantidadFinal(estado_inicial.getCantidadInicial() - 1);
-		teoria_inicial.setExitos(0);
+		teoria_inicial.setTiroParabola(true);
+		teoria_inicial.setPuntaje(0);
 		teoria_inicial.setUsos(1);
 		//Setear maximo en lista
-		int limite = 0;
-		if ( estado_inicial.getCantidadInicial() > Estado.limite) {		
-			limite = Estado.limite;
-		} else {
-			limite = estado_inicial.getCantidadInicial();
-		}
-		System.out.println("LIMITE :"+limite);
+		//int limite = 0;
+		//if ( estado_inicial.getCantidadInicial() > Estado.limite) {		
+		//	limite = Estado.limite;
+		//} else {
+		//	limite = estado_inicial.getCantidadInicial();
+		//}
+		//System.out.println("LIMITE :"+limite);
+		
+		// ---- TODO: CAMBIAR POR LA COMPARACION ENTRE LAS TEORIAS DE CADA CHANCHO?
 		boolean chancho_dummie = true;
 		int random=0;
 		List<Chancho> chanchosList = estado_inicial.getChanchos();
@@ -40,7 +42,7 @@ public class Solver {
 				chancho_dummie = false;
 			}
 		}
-		teoria_inicial.setAccion(random);
+		//??? teoria_inicial.setAccion(random);
 		this.agregarTeoria(teoria_inicial);
 	}
 	//Aca hay q hacer la magia de combinar teorias
@@ -67,12 +69,14 @@ public class Solver {
 		while (iTeoria.hasNext()) {
 			teoria = iTeoria.next();
 			if (teoria.getEstado().Igual(estado)) {
+				// --- TODO: ACA SE EVALUAN TODAS LAS OPCIONES CON LOS CHANCHOS
+				
 				if (teoria.mejorQue(teoria_elegida)) {
 					teoria_elegida = teoria;
 				}
 			}
 		}
-		System.out.println("TEORIA :  ACCION:"+ teoria_elegida.getAccion() + " EXITOS:"+teoria_elegida.getExitos() +" USOS:"+teoria_elegida.getUsos());
+		System.out.println("TEORIA :  Tiro Parabolico:"+ teoria_elegida.getTiroParabola() + " PuntajePromedio:"+teoria_elegida.getPuntaje() +" USOS:"+teoria_elegida.getUsos());
 		return teoria_elegida;
 	}
 }
