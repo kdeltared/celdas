@@ -8,17 +8,34 @@ import java.awt.Point;
 
 public class Sensor{
 	private List<ABObject> pigs;
-	private int cantidad_inicial;
+	private List<ABObject> cantidadMadera;
+	private List<ABObject> cantidadHielo;
+	private List<ABObject> cantidadPiedra;
+	#private int cantidad_inicial;
 	private ABType birdType;
 
-	public Sensor(List<ABObject> pigs, ABType birdType) {
-		this.cantidad_inicial = pigs.size();
+	public Sensor(List<ABObject> pigs, ABType birdType, List<ABObject> cantMadera, List<ABObject> cantHielo, List<ABObject> cantPiedra) {
+		#this.cantidad_inicial = pigs.size();
 		this.birdType = birdType;
 		this.pigs = pigs;
+		this.cantidadHielo= cantHielo;
+		this.cantidadMadera= cantMadera;
+		this.cantidadPiedra= cantPiedra;
 	}
 	public void setPigs(List<ABObject> pigs) {
 		this.pigs = pigs;
 	}
+	
+	public List<ABObject> getCantidadMadera(){
+		return this.cantidadMadera;
+	}
+	public List<ABObject> getCantidadHielo(){
+		return this.cantidadHielo;
+	}
+	public List<ABObject> getCantidadPiedra(){
+		return this.cantidadPiedra;
+	}
+	
 	//Ordenar lista de chanchos
 	public List<Chancho> getChanchos() {
 		List<Chancho> chanchos = new ArrayList<Chancho>();
@@ -42,10 +59,10 @@ public class Sensor{
 			chanchos.add(new Chancho(iterator,(this.abs(_tpt.x - centro_x))/5));
 			iterator++;
 		}
-		//Agrego chanchos falsos para llegar a la cantidad limite
-		while(chanchos.size() < Estado.limite) {
-			chanchos.add(new Chancho(0,Chancho.dummie));
-		}
+		#//Agrego chanchos falsos para llegar a la cantidad limite
+		#while(chanchos.size() < Estado.limite) {
+		#	chanchos.add(new Chancho(0,Chancho.dummie));
+		#}
 		//Ordenar por value
 		Collections.sort(chanchos);
 		//Sacar Chanchos que sobran

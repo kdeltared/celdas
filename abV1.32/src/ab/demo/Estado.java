@@ -13,7 +13,9 @@ public class Estado {
 
 	public Estado(Sensor sensor) {
 		this.chanchos = sensor.getChanchos();
-		this.cantidad_inicial = sensor.getCantidad();
+		this.maderas = sensor.getCantidadMadera();
+		this.hielos = sensor.getCantidadHielo();
+		this.piedras = sensor.getCantidadPiedra();
 		this.birdType = sensor.getBird();
 	}
 	public Estado(List<Chancho> chanchos, int cantidad_inicial, ABType birdType) {
@@ -23,31 +25,26 @@ public class Estado {
 	}
 
 	//Comparar si los estados iniciales son iguales
-	public boolean Igual(Estado estado) {
-		if (this.cantidad_inicial != estado.getCantidadInicial()) {
+	public boolean Igual(Estado estadoTeoria, Chancho chancho) {
+		
+		if (this.birdType != estadoToria.getBird()) {
 			return false;
 		}
-		if (this.birdType != estado.getBird()) {
+		propIzq = this.getProporcionIzquierdaChancho(chancho);
+		propIzqTeoria = estado.getProporcionIzquierdaChancho(chancho);
+		propArriba = this.getProporcionIzquierdaChancho(chancho);
+		propArribaTeoria = estado.getProporcionArribaChancho(chancho);
+
+		if (estado.getCantidadHielo()/ estadoTeoria.getTotalObstaculos() == this.cantidadHielo/this.getTotalObstaculos() &&
+			estado.getCantidadMadera()/ estadoTeoria.getTotalObstaculos() == this.cantidadMadera/ this.getTotalObstaculos() &&
+			estado.getCantidadPiedra()/ estadoTeoria.getTotalObstaculos() == this.cantidadPiedra/ this.getTotalObstaculos()){
 			return false;
-		}
-		List<Chancho> chanchos_list = estado.getChanchos();
-		Iterator<Chancho> iChanchos1 = chanchos_list.iterator();
-		Iterator<Chancho> iChanchos2 = this.chanchos.iterator();
-		Chancho chancho1,chancho2;
-		while (iChanchos1.hasNext()) {
-			chancho1 = iChanchos1.next();
-			chancho2 = iChanchos2.next();
-    		if (chancho1.getValue() != chancho2.getValue()) {
-				return false;
-			}
 		}
 		return true;
 	}
-	public int getCantidadInicial() {
-		return this.cantidad_inicial;
-	}
-	public List<Chancho> getChanchos() {
-		return this.chanchos;
+	
+	public getTotalObstaculos();
+		return this.cantidadHielo+this.cantidadMadera+this.cantidadPiedra;
 	}
 	public ABType getBird() {
 		return this.birdType;
