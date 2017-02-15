@@ -78,12 +78,12 @@ public class JSON {
 				//	i++;
 				//}
 				unJSONObj.put("tipoPajaro", JSON.getID(unaTeoria.getBird()));
-				unJSONObj.put("cantMaderaIzquierda", unaTeoria.getCantidadMaderaIzq());
-				unJSONObj.put("cantMaderaArriba", unaTeoria.getCantidadMaderaArriba());
-				unJSONObj.put("cantHieloIzquierda", unaTeoria.getCantidadHieloIzq());
-				unJSONObj.put("cantHieloArriba", unaTeoria.getCantidadHieloArriba());
-				unJSONObj.put("cantPiedraIzquierda", unaTeoria.getCantidadPiedraIzq());
-				unJSONObj.put("cantPiedraArriba", unaTeoria.getCantidadPiedraArriba());
+				unJSONObj.put("cantMaderaIzquierda", unaTeoria.getCantidadIzquierdaMadera());
+				unJSONObj.put("cantMaderaArriba", unaTeoria.getCantidadArribaMadera());
+				unJSONObj.put("cantHieloIzquierda", unaTeoria.getCantidadIzquierdaHielo());
+				unJSONObj.put("cantHieloArriba", unaTeoria.getCantidadArribaHielo());
+				unJSONObj.put("cantPiedraIzquierda", unaTeoria.getCantidadIzquierdaPiedra());
+				unJSONObj.put("cantPiedraArriba", unaTeoria.getCantidadArribaPiedra());
 				unJSONObj.put("tiroParabola", unaTeoria.getTiroParabola());
 				unJSONObj.put("puntaje", unaTeoria.getPuntaje());
 				unJSONObj.put("usos", unaTeoria.getUsos());
@@ -139,13 +139,15 @@ public class JSON {
 				//Collections.sort(chanchos);
 				
 				Estado estado = new Estado(JSON.getABType((int)birdType));
-				Teoria teoria = new Teoria(estado);
-				teoria.setCantidadMaderaIzq((int)cantMaderaIzquierda);
-				teoria.setCantidadMaderaArriba((int)cantMaderaArriba);
-				teoria.setCantidadHieloIzq((int)cantHieloIzquierda);
-				teoria.setCantidadHieloArriba((int)cantHieloArriba);
-				teoria.setCantidadPiedraIzq((int)cantPiedraIzquierda);
-				teoria.setCantidadPiedraArriba((int)cantPiedraArriba);
+				Teoria teoria = new Teoria(estado, cantMaderaIzquierda, cantMaderaArriba, cantHieloIzquierda, 
+							cantHieloArriba, cantPiedraIzquierda, cantPiedraArriba);
+				
+				//teoria.setCantidadMaderaIzq((int)cantMaderaIzquierda);
+				//teoria.setCantidadMaderaArriba((int)cantMaderaArriba);
+				//teoria.setCantidadHieloIzq((int)cantHieloIzquierda);
+				//teoria.setCantidadHieloArriba((int)cantHieloArriba);
+				//teoria.setCantidadPiedraIzq((int)cantPiedraIzquierda);
+				//teoria.setCantidadPiedraArriba((int)cantPiedraArriba);
 				teoria.setTiroParabola((int)tiroParabola);
 				teoria.setUsos((int)usos);
 				teoria.setPuntaje((int)puntaje);

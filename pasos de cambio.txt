@@ -1,9 +1,9 @@
-estado-- evalua chanchos y sus obstaculos a izq y arriba -> compara izq y der con lista de teorias iguales y similares. 
+estado-- evalua chanchos y sus obstaculos a izq y arriba -> compara izq y arriba con lista de teorias iguales y similares. 
 * definir un limite de igualdad (0.01) y similitud (0.1) para las cantidades normalizadas. 
 
-teorias: cantidad a izq, cantidad arriba, tipopajaro, parabola, puntaje, usos.
+teorias: cantidad a izq, cantidad arriba, tipopajaro, parabola, puntaje, usos. --OK
 
-- tenemos que calcular obstaculos a izq y derecha de cada cancho.
+- tenemos que calcular obstaculos a izq y arriba de cada cancho. -- CASI, FALTA CONSEGUIR POSX Y POSY DE CADA OBJETO!
 - evaluar teorias por cada chancho, donde se pondera entre el exito de cada teoria similar a las condiciones actuales.
 - por cada teoria de chancho, se elige el random ponderado por puntaje, mas una fija random.
 - elegida la teoria, se toma la decision de parabola de esa teoria.
@@ -12,12 +12,16 @@ teorias: cantidad a izq, cantidad arriba, tipopajaro, parabola, puntaje, usos.
 - vuelvo a jugar!
 
 
-*cambiar json con las variables de teoria nuestras.
+*cambiar json con las variables de teoria nuestras. --OK
 
-Sensor: recolecta la info del escenario
-Estado: genera el estado de la teoria segun el sensor. Compara la igualdad y similitud de la situacion actual con el estado de una teoria. Si es similar, crea una nueva teoria. Hace los calculos de objetos a izquierda y arriba del chancho. (+- 10pixeles?)
+Sensor: recolecta la info del escenario --OK
+Estado: genera el estado de la teoria segun el sensor. --OK
+ - Compara la igualdad (OK) y similitud de la situacion actual con el estado de una teoria. 
+ - Si es similar, crea una nueva teoria. 
+ - Hace los calculos de objetos a izquierda y arriba del chancho. (+- 10pixeles?) --OK
 Solver: REcibe el Sensor, y por cada chancho genera un estado. A partir de eso, busca las mejores teorias de cada chancho, y elige estocastimente, proporcional a sus puntajes.
 
 ClientAgent: Recibe el chancho y la teoria desde el solver, y para terminar se decide si el tiro es parabolico o no, segun especificado en la teoria. Luego de tirar, verifica el puntaje (ar), y se lo suma a la teoria elegida (mas 1 uso). Guarda.
   
-Teorias: .esIgual(teoria), compara si las teorias son iguales. criterio de igualdad! (no es necesario las teorias similares?)
+Teorias: .esIgual(teoria), compara si las teorias son iguales. criterio de igualdad! --OK
+- Si es falso comparo por teorias similares, si es similar, la utilizo y la guardo. (desde Solver?)
