@@ -1,5 +1,5 @@
-estado-- evalua chanchos y sus obstaculos a izq y arriba -> compara izq y arriba con lista de teorias iguales y similares. 
-* definir un limite de igualdad (0.01) y similitud (0.1) para las cantidades normalizadas. 
+estado-- evalua chanchos y sus obstaculos a izq y arriba -> compara izq y arriba con lista de teorias iguales y similares. --OK
+* definir un limite de igualdad (0.01) y similitud (0.1) para las cantidades normalizadas. --OK
 
 teorias: cantidad a izq, cantidad arriba, tipopajaro, parabola, puntaje, usos. --OK
 
@@ -13,15 +13,18 @@ teorias: cantidad a izq, cantidad arriba, tipopajaro, parabola, puntaje, usos. -
 
 
 *cambiar json con las variables de teoria nuestras. --OK
-
 Sensor: recolecta la info del escenario --OK
 Estado: genera el estado de la teoria segun el sensor. --OK
- - Compara la igualdad (OK) y similitud de la situacion actual con el estado de una teoria. 
- - Si es similar, crea una nueva teoria. 
+ - Compara la igualdad (OK) y similitud de la situacion actual con el estado de una teoria. --OK
+ - Si es similar, crea una nueva teoria. --OK
  - Hace los calculos de objetos a izquierda y arriba del chancho. (+- 10pixeles?) --OK
-Solver: REcibe el Sensor, y por cada chancho genera un estado. A partir de eso, busca las mejores teorias de cada chancho, y elige estocastimente, proporcional a sus puntajes.
+Solver: REcibe el Sensor, y por cada chancho genera un estado. 
+ - A partir de eso, busca las mejores teorias de cada chancho, y elige estocastimente, proporcional a sus puntajes.
 
-ClientAgent: Recibe el chancho y la teoria desde el solver, y para terminar se decide si el tiro es parabolico o no, segun especificado en la teoria. Luego de tirar, verifica el puntaje (ar), y se lo suma a la teoria elegida (mas 1 uso). Guarda.
+ClientAgent: Recibe el chancho y la teoria desde el solver, 
+ - y para terminar se decide si el tiro es parabolico o no, segun especificado en la teoria. 
+ - Luego de tirar, verifica el puntaje ("ar"), y se lo suma a la teoria elegida (mas 1 uso). 
+ - Guarda.
   
 Teorias: .esIgual(teoria), compara si las teorias son iguales. criterio de igualdad! --OK
 - Si es falso comparo por teorias similares, si es similar, la utilizo y la guardo. (desde Solver?)

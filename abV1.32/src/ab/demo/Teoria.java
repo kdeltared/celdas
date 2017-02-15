@@ -25,6 +25,7 @@ public class Teoria {
 		this.cantidadArribaHielo=cantHieloArriba;
 		this.cantidadIzquierdaPiedra=cantPiedraIzquierda;
 		this.cantidadArribaPiedra=cantPiedraArriba;
+		this.tiroParabola = 0;
 	}
 	//Levantar desde archivo
 	public Teoria() {

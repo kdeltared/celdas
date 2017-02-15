@@ -49,35 +49,76 @@ public class Estado {
 				abs(propIzqPiedra -teoria.getCantidadIzquierdaPiedra()) <= this.propIgualdad && 
 				abs(propArribaPiedra -teoria.getCantidadArribaPiedra()) <= this.propIgualdad)
 	}
+	//Comparar si los estados son similares, y devuelve la nueva teoria si es simil.
+	public Teoria getTeoriaSimilar(Teoria teoria, Chancho chancho) {
+		
+		if (this.birdType !=. teoria.getEstado().getBird()) {
+			return null;
+		}
+		float propIzqMadera = this.getProporcionIzquierdaDeChancho(chancho, this.maderas);
+		float propArribaMadera = this.getProporcionArribaDeChancho(chancho, this.maderas);
+		float propIzqPiedra = this.getProporcionIzquierdaDeChancho(chancho, this.piedras);
+		float propArribaPiedra = this.getProporcionArribaDeChancho(chancho, this.piedras);
+		float propIzqHielo = this.getProporcionIzquierdaDeChancho(chancho, this.hielos);
+		float propArribaHielo = this.getProporcionArribaDeChancho(chancho, this.hielos);
+		
+		if (abs(propIzqMadera -teoria.getCantidadIzquierdaMadera()) <= this.propSimil && 
+				abs(propArribaMadera -teoria.getCantidadArribaMadera()) <= this.propSimil &&
+				abs(propIzqHielo -teoria.getCantidadIzquierdaHielo()) <= this.propSimil && 
+				abs(propArribaHielo -teoria.getCantidadArribaHielo()) <= this.propSimil &&
+				abs(propIzqPiedra -teoria.getCantidadIzquierdaPiedra()) <= this.propSimil && 
+				abs(propArribaPiedra -teoria.getCantidadArribaPiedra()) <= this.propSimil){
+			return new Teoria(this, propIzqMadera, propArribaMadera, propIzqPiedra, propArribaPiedra, propIzqHielo, propArribaHielo);
+		}
+		return null;
+	}
 	
-	private float getProporcionIzquierdaDeChancho(Chancho chancho, int obstaculos){
-		//cuento la cantidad de obstaculos que estan efectivamente a la izquierda del chancho..
-		int posX = chancho.getX(); //?? NOSE como guarda su lugar en la escena!
+	private int getIzquierda(int posChanchoX, List<ABObject> obs){
 		int izquierda = 0;
-		for obs in obstaculos:
+		for (ABObject ob : obs){
 			//comparo si los centros estan a la izquierda del chancho..
-			if (obs.getCenterX() < posX){
+			if (ob.getCenterX() < posChanchoX){
 				izquierda+=1;
 			}
-		return izquierda/this.getTotalObstaculos();
+		}
+		return izquierda;
+	}
+	private float getProporcionIzquierdaDeChancho(Chancho chancho, List<ABObject> obstaculos){
+		//cuento la cantidad de obstaculos que estan efectivamente a la izquierda del chancho..
+		int posX = chancho.getX(); //?? NOSE como guarda su lugar en la escena!
+		int izquierda = getIzquierda(posX, obstaculos);
+		int madera = getIzquierda(posX, this.maderas);
+		int piedra = getIzquierda(posX, this.piedras);
+		int hielo = getIzquierda(posX, this.hielos);
+		
+		return (float)izquierda/(madera+hielo+piedra);
 	}
 	//FIX!! Posiciones de objetos
-	private float getProporcionIzquierdaDeChancho(Chancho chancho, int obstaculos){
+	private int getArriba(int posChanchoX, int posChanchoY, List<ABObject> obs){
+		int arriba = 0;
+		for (ABObject ob : obs){
+			//comparo si los centros estan a la izquierda del chancho..
+			if (ob.getCenterY() > posChanchoY && ob.getCenterX() > posChanchoX-this.boundsCentrado 
+				&& ob.getCenterX() < posChanchoX+this.boundsCentrado ){
+				arriba+=1;
+			}
+		}
+		return arriba;
+	}
+	private float getProporcionIzquierdaDeChancho(Chancho chancho, List<ABObject> obstaculos){
 		//cuento la cantidad de obstaculos que estan efectivamente a la izquierda del chancho..
 		int posY = chancho.getY(); //?? NOSE como guarda su lugar en la escena!
 		int posX = chancho.getX(); //centrar el "arriba"
-		int arriba = 0;
-		for obs in obstaculos:
-			//comparo si los centros estan a la izquierda del chancho..
-			if (obs.getCenterY() > posY && obs.getCenterX() > posX-this.boundsCentrado && obs.getCenterX() < posX+this.boundsCentrado ){
-				arriba+=1;
-			}
-		return arriba/this.getTotalObstaculos();
+		int arriba = getArriba(posX, posY, obstaculos);
+		int madera = getArriba(posX, posY, this.maderas);
+		int hielo = getArriba(posX, posY, this.hielos);
+		int piedra = getArriba(posX, posY, this.piedras);
+		return (float)arriba/(madera+piedra+hielo);
 	}
 		
-	public getTotalObstaculos();
-		return this.cantidadHielo+this.cantidadMadera+this.cantidadPiedra;
-	}
+	//public getTotalObstaculos();
+		//return this.cantidadHielo+this.cantidadMadera+this.cantidadPiedra;
+	//}
 	public ABType getBird() {
 		return this.birdType;
 	}
