@@ -222,7 +222,9 @@ public class ClientNaiveAgent implements Runnable {
 		 // get all the pigs
  		List<ABObject> pigs = vision.findPigsMBR();
 
-
+        //get all the blocks
+		List<ABObject> blocks = vision.findBlocksMBR();
+        
 		GameState state = ar.checkState();
 		// if there is a sling, then play, otherwise skip.
 		if (sling != null) {
@@ -232,7 +234,9 @@ public class ClientNaiveAgent implements Runnable {
 				Point releasePoint = null;
 	//-------------------------------------------------------------------------//
 				//Solver solver = new Solver();
-				Sensor sensor = new Sensor(pigs, ar.getBirdTypeOnSling());
+				Sensor sensor = new Sensor(pigs, ar.getBirdTypeOnSling(),blocks);
+                List<Estado> estados = sensor.getEstados();
+                
 				Estado estado_inicial = new Estado(sensor);
 				//Obtener Mejor teoria para el estado inicial
 				Teoria teoria = solver.getTeoria(estado_inicial);

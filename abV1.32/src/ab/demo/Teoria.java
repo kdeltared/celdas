@@ -3,103 +3,85 @@ import ab.vision.ABType;
 import ab.demo.Estado;
 
 public class Teoria {
-	private Estado estado;
-	#private int cantidad_final;
-	private float cantidadIzquierdaMadera;
-	private float cantidadArribaMadera;
-	private float cantidadIzquierdaHielo;
-	private float cantidadArribaHielo;
-	private float cantidadIzquierdaPiedra;
-	private float cantidadArribaPiedra;
-	
-	private int tiroParabola;
+	private Estado estado_inicial;
+	private int cantidad_final;
+	private int accion;
 	private int exitos;
 	private int usos;
 
-	public Teoria(Estado estado, int cantMaderaIzquierda, int cantMaderaArriba, int cantHieloIzquierda, int cantHieloArriba,
-				int cantPiedraIzquierda, int cantPiedraArriba) {
-		this.estado = estado;
-		this.cantidadIzquierdaMadera=cantMaderaIzquierda;
-		this.cantidadArribaMadera=cantMaderaArriba;
-		this.cantidadIzquierdaHielo=cantHieloIzquierda;
-		this.cantidadArribaHielo=cantHieloArriba;
-		this.cantidadIzquierdaPiedra=cantPiedraIzquierda;
-		this.cantidadArribaPiedra=cantPiedraArriba;
-		this.tiroParabola = 0;
+	public Teoria(Estado estado) {
+		this.estado_inicial = estado;
 	}
+
 	//Levantar desde archivo
 	public Teoria() {
 	}
-	
-	public Estado getEstado() {
-		return this.estado;
-	}
 
-	//Retorna true si la teoria es mejor a la pasada
-	// 
-	public boolean mejorQue(Teoria teoria) {
-		if (teoria == null) {
-			return true;
-		}
-		return this.puntaje/this.usos > teoria.getPuntaje()/teoria.getUsos();
+	public void setCantidadFinal(int newCantidad_final) {
+		this.cantidad_final = newCantidad_final;
 	}
 	
-	public boolean esIgual(Teoria teoria) {
-		return (teoria.getEstado().Igual(this.getEstado()) )
-	}
-	
-	public int getCantidadIzquierdaMadera(){
-		return this.cantidadIzquierdaMadera;
-	}
-	public int getCantidadArribaMadera(){
-		return this.cantidadArribaMadera;
-	}
-	public int getCantidadIzquierdaHielo(){
-		return this.cantidadIzquierdaHielo;
-	}
-	public int getCantidadArribaHielo(){
-		return this.cantidadArribaHielo;
-	}
-	public int getCantidadIzquierdaPiedra(){
-		return this.cantidadIzquierdaPiedra;
-	}
-	public int getCantidadArribaPiedra(){
-		return this.cantidadArribaPiedra;
-	}
-	public void setPuntaje(int newPuntaje)  {
-		this.puntaje = newPuntaje;
+	public void setExitos(int newExitos)  {
+		this.exitos = newExitos;
 	}
 
 	public void setUsos(int newUsos) {
 		this.usos = newUsos;
 	}
 
-	public void setTiroParabola(int newTiroParabola) {
-		this.tiroParabola = newTiroParabola;
+	public void setAccion(int newAction) {
+		this.accion = newAction;
 	}
 
-	public int getTiroParabola() {
-		return this.tiroParabola;
+	public int getAccion() {
+		return this.accion;
+	}
+
+	public Estado getEstado() {
+		return this.estado_inicial;
+	}
+
+	//Retorna true si la teoria es mejor a la pasada
+	public boolean mejorQue(Teoria teoria) {
+		if (teoria == null) {
+			return true;
+		}
+		if (teoria.getRate() < this.getRate()) {
+			return true;
+		}
+		return false;
 	}
 	
-
-	//public int getCantidadFinal() {
-	//	return this.cantidad_final;
-	//}
-
-	//public int getCantidadInicial() {
-	//	return this.estado_inicial.getCantidadInicial();
-	//}
+	public boolean esIgual(Teoria teoria) {
+		if (teoria.getEstado().Igual(this.getEstado()) && teoria.getAccion() == this.getAccion()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
-	public int getPuntaje()  {
-		return this.puntaje;
+	public double getRate() {
+		double rate =  (this.getCantidadInicial()-this.cantidad_final) * (this.exitos * 1.0/this.usos);
+		return rate;
+	}
+
+	public int getCantidadFinal() {
+		return this.cantidad_final;
+	}
+
+	public int getCantidadInicial() {
+		return this.estado_inicial.getCantidadInicial();
+	}
+	
+	public int getExitos()  {
+		return this.exitos;
 	}
 
 	public int getUsos() {
 		return this.usos;
 	}
 	public ABType getBird() {
-		return this.estado.getBird();
+		return this.estado_inicial.getBird();
 	}
 }
 
