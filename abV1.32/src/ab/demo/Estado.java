@@ -11,17 +11,17 @@ public class Estado {
 	private int cantidad_inicial; //legacy
 	public static int limite = 3; //legacy
 	
-    public double propIgualdad = 0.01;
+    private double propIgualdad = 0.01;
 	private int boundsCentrado = 20;
     private double propSimil = 0.10;
     
-    private ABType birdType;
-	private double maderaIzqNormalizada;
-    private double maderaArribaNormalizada;
-	private double hieloIzqNormalizada;
-    private double hieloArribaNormalizada;
-	private double piedraIzqNormalizada;
-    private double piedraArribaNormalizada;
+    public ABType birdType;
+	public double maderaIzqNormalizada;
+    public double maderaArribaNormalizada;
+	public double hieloIzqNormalizada;
+    public double hieloArribaNormalizada;
+	public double piedraIzqNormalizada;
+    public double piedraArribaNormalizada;
 	    
     private ABObject pig;
     
@@ -42,23 +42,34 @@ public class Estado {
         
         int cantTotal = sensor.getCantidadTotalDeBloques();
         
-        System.out.println("Calculando madera");
+        //System.out.println("Calculando madera");
         this.maderaIzqNormalizada = this.normalizar(this.getCantidadIzquierda(pig,sensor.getMadera()),cantTotal);
         this.maderaArribaNormalizada = this.normalizar(this.getCantidadArriba(pig,sensor.getMadera()),cantTotal);
-        System.out.println("Calculando hielo");
+        //System.out.println("Calculando hielo");
         this.hieloIzqNormalizada = this.normalizar(this.getCantidadIzquierda(pig,sensor.getHielo()),cantTotal);
         this.hieloArribaNormalizada = this.normalizar(this.getCantidadArriba(pig,sensor.getHielo()),cantTotal);
-        System.out.println("Calculando piedra");
+        //System.out.println("Calculando piedra");
         this.piedraIzqNormalizada = this.normalizar(this.getCantidadIzquierda(pig,sensor.getPiedra()),cantTotal);
         this.piedraArribaNormalizada = this.normalizar(this.getCantidadArriba(pig,sensor.getPiedra()),cantTotal);
         
-        System.out.println("maderaIzqNormalizada :"+ this.maderaIzqNormalizada);
-        System.out.println("maderaArribaNormalizada :"+ this.maderaArribaNormalizada);
-        System.out.println("hieloIzqNormalizada :"+ this.hieloIzqNormalizada);
-        System.out.println("hieloArribaNormalizada :"+ this.hieloArribaNormalizada);
-        System.out.println("piedraIzqNormalizada :"+ this.piedraIzqNormalizada);
-        System.out.println("piedraArribaNormalizada :"+ this.piedraArribaNormalizada);
+        //System.out.println("maderaIzqNormalizada :"+ this.maderaIzqNormalizada);
+        //System.out.println("maderaArribaNormalizada :"+ this.maderaArribaNormalizada);
+        //System.out.println("hieloIzqNormalizada :"+ this.hieloIzqNormalizada);
+        //System.out.println("hieloArribaNormalizada :"+ this.hieloArribaNormalizada);
+        //System.out.println("piedraIzqNormalizada :"+ this.piedraIzqNormalizada);
+        //System.out.println("piedraArribaNormalizada :"+ this.piedraArribaNormalizada);
         
+    }
+    public Estado(ABType birdType,double maderaIzqNormalizada,double maderaArribaNormalizada,
+                double hieloIzqNormalizada, double hieloArribaNormalizada, double piedraIzqNormalizada,
+                double piedraArribaNormalizada ){
+        this.birdType=birdType;
+        this.maderaIzqNormalizada=maderaIzqNormalizada;
+        this.maderaArribaNormalizada=maderaArribaNormalizada;
+        this.hieloIzqNormalizada=hieloIzqNormalizada;
+        this.hieloArribaNormalizada=hieloArribaNormalizada;
+        this.piedraIzqNormalizada=piedraIzqNormalizada;
+        this.piedraArribaNormalizada=piedraArribaNormalizada;
     }
     
     //legacy
@@ -68,7 +79,7 @@ public class Estado {
 		this.birdType = birdType;
 	}
 
-	//Comparar si los estados iniciales son iguales
+	//Comparar si los estados iniciales son iguales//legacy
 	public boolean Igual(Estado estado) {
 		if (this.cantidad_inicial != estado.getCantidadInicial()) {
 			return false;
@@ -89,6 +100,20 @@ public class Estado {
 		}
 		return true;
 	}
+    
+    public double comparar(Estado estado){
+        if (this.birdType != estado.birdType){ 
+            return 999.9;
+        }
+        double sum =  Math.sqrt(Math.pow((this.maderaIzqNormalizada - estado.maderaIzqNormalizada),2) +
+                      Math.pow((this.maderaArribaNormalizada - estado.maderaArribaNormalizada),2) +
+                      Math.pow((this.hieloIzqNormalizada - estado.hieloIzqNormalizada),2) +
+                      Math.pow((this.hieloArribaNormalizada - estado.hieloArribaNormalizada),2) +
+                      Math.pow((this.piedraIzqNormalizada - estado.piedraIzqNormalizada),2) +
+                      Math.pow((this.piedraArribaNormalizada - estado.piedraArribaNormalizada),2));
+        return sum;
+	}
+    
 	public int getCantidadInicial() {
 		return this.cantidad_inicial;
 	}
@@ -148,6 +173,14 @@ public class Estado {
     private double normalizar(int valor,int total){
         double normalizado = (double)valor / total;
         return normalizado;
+    }
+    
+    public void setPig(ABObject pig){
+        this.pig = pig;
+    }
+    
+    public ABObject getPig(){
+        return this.pig;
     }
     
 }

@@ -1,5 +1,6 @@
 package ab.demo;
 import ab.vision.ABType;
+import ab.vision.ABObject;
 import ab.demo.Estado;
 
 public class Teoria {
@@ -7,16 +8,26 @@ public class Teoria {
 	private int cantidad_final;
 	private int accion;
 	private int exitos;
+    private int puntaje;
+    private boolean accionB;
 	private int usos;
-
+    
 	public Teoria(Estado estado) {
 		this.estado_inicial = estado;
 	}
-
+    
 	//Levantar desde archivo
 	public Teoria() {
 	}
 
+    public void setPuntaje(int puntaje){
+        this.puntaje = puntaje;
+    }
+    
+    public int getPuntaje(){
+        return this.puntaje;
+    }
+    
 	public void setCantidadFinal(int newCantidad_final) {
 		this.cantidad_final = newCantidad_final;
 	}
@@ -32,8 +43,8 @@ public class Teoria {
 	public void setAccion(int newAction) {
 		this.accion = newAction;
 	}
-
-	public int getAccion() {
+    
+   	public int getAccion() {
 		return this.accion;
 	}
 
@@ -83,5 +94,14 @@ public class Teoria {
 	public ABType getBird() {
 		return this.estado_inicial.getBird();
 	}
+    
+    public void setPig(ABObject pig){
+        this.estado_inicial.setPig(pig);
+    }
+    
+    public ABObject getPig(){
+        return this.estado_inicial.getPig();
+    }
+      
 }
 

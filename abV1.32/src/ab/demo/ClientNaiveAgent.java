@@ -236,14 +236,11 @@ public class ClientNaiveAgent implements Runnable {
 				//Solver solver = new Solver();
 				Sensor sensor = new Sensor(pigs, ar.getBirdTypeOnSling(),blocks);
                 List<Estado> estados = sensor.getEstados();
-                
-				Estado estado_inicial = new Estado(sensor);
-				//Obtener Mejor teoria para el estado inicial
-				Teoria teoria = solver.getTeoria(estado_inicial);
-				//Se aplican las acciones de esa teoria
-				int chanchoApuntado  = estado_inicial.getChanchos().get(teoria.getAccion()).getPos();
-				System.out.println("CHANCHO APUNTADO :"+ chanchoApuntado);
-				ABObject pig = pigs.get(chanchoApuntado);
+                Teoria teoria_bis = solver.getTeoriaParaAplicar(estados);
+				                
+                ABObject pig = teoria_bis.getPig();
+                int accion = teoria_bis.getAccion();
+                System.out.println("Accion elejida: "+accion);
 				//Comenzar a apuntar con el chancho elegido
 				Point _tpt = pig.getCenter();
 	//------------------------------------------------------------------------------//
@@ -263,23 +260,13 @@ public class ClientNaiveAgent implements Runnable {
 					ArrayList<Point> pts = tp.estimateLaunchPoint(sling, _tpt);
 
 					// do a high shot when entering a level to find an accurate velocity
-					if (firstShot &&	 pts.size() > 1) {
-						releasePoint = pts.get(1);
-					} else 
-						if (pts.size() == 1)
-							releasePoint = pts.get(0);
-						else 
-							if(pts.size() == 2)
-							{
-								// System.out.println("first shot " + firstShot);
-								// randomly choose between the trajectories, with a 1 in
-								// 6 chance of choosing the high one
-								if (randomGenerator.nextInt(6) == 0)
-									releasePoint = pts.get(1);
-								else
-								releasePoint = pts.get(0);
-							}
-							Point refPoint = tp.getReferencePoint(sling);
+					if (pts.size() > 1) {
+						releasePoint = pts.get(accion);
+					} else{
+                        releasePoint = pts.get(0);
+                    }
+                    
+					Point refPoint = tp.getReferencePoint(sling);
 
 					// Get the release point from the trajectory prediction module
 					int tapTime = 0;
@@ -344,7 +331,7 @@ public class ClientNaiveAgent implements Runnable {
 								}
 							}
 						//-------------------------------------------------------------------------//
-							// capture Image
+							/*// capture Image
 							ar.fullyZoomOut();
 							screenshot = ar.doScreenShot();
 
@@ -365,7 +352,7 @@ public class ClientNaiveAgent implements Runnable {
 								}	
 							}
 							teoria.setUsos(teoria.getUsos()+1);
-							solver.grabar();		
+							solver.grabar();*/		
 						}
 						else
 							System.out.println("Scale is changed, can not execute the shot, will re-segement the image");

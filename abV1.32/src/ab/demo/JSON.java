@@ -20,7 +20,7 @@ import java.util.*;
 
 
 public class JSON {
-	private static final String FILE_NAME = "teorias.json";
+	private static final String FILE_NAME = "teorias2.json";
 	//	RedBird(4), 
 	//	YellowBird(5), 
 	//	BlueBird(6), 
@@ -69,19 +69,17 @@ public class JSON {
 
 			for (Teoria unaTeoria : teorias) {
 			
-
 				JSONObject unJSONObj = new JSONObject();
-
-				int i =0;
-				for (Chancho unChancho : unaTeoria.getEstado().getChanchos()){
-					unJSONObj.put("chancho "+i,unChancho.getValue());
-					i++;
-				}
-				unJSONObj.put("tipoPajaro", JSON.getID(unaTeoria.getBird()));
-				unJSONObj.put("cantInicial", unaTeoria.getCantidadInicial());
-				unJSONObj.put("cantFinal", unaTeoria.getCantidadFinal());
+                Estado estado = unaTeoria.getEstado();
+                unJSONObj.put("maderaIzqNormalizada",estado.maderaIzqNormalizada);
+                unJSONObj.put("maderaArribaNormalizada",estado.maderaArribaNormalizada);
+                unJSONObj.put("hieloIzqNormalizada",estado.hieloIzqNormalizada);
+                unJSONObj.put("hieloArribaNormalizada",estado.hieloArribaNormalizada);
+                unJSONObj.put("piedraIzqNormalizada",estado.piedraIzqNormalizada);
+                unJSONObj.put("piedraArribaNormalizada",estado.piedraArribaNormalizada);
+				unJSONObj.put("tipoPajaro", JSON.getID(estado.getBird()));
 				unJSONObj.put("accion", unaTeoria.getAccion());
-				unJSONObj.put("exitos", unaTeoria.getExitos());
+				unJSONObj.put("puntaje", unaTeoria.getPuntaje());
 				unJSONObj.put("usos", unaTeoria.getUsos());
 
 				//agregar jsonobject al jsonarray
@@ -113,29 +111,27 @@ public class JSON {
 			JSONArray teoriasJSON = (JSONArray) mainJSONObj.get("teorias");
 			for (int i = 0, size = teoriasJSON.size(); i < size; i++){
 				JSONObject unaTeoria = (JSONObject) teoriasJSON.get(i); //No estoy seguro de esta linea. O es .get(i) o .getJSONObject(i)
-				List<Chancho> chanchos = new ArrayList<Chancho>();
 							
-			
 				//Crear el birdtype
 				long birdType = (Long) unaTeoria.get("tipoPajaro");
-				long cantInicial = (Long) unaTeoria.get("cantInicial");	
-				long cantFinal = (Long) unaTeoria.get("cantFinal");
 				long accion = (Long) unaTeoria.get("accion");
-				long exitos = (Long) unaTeoria.get("exitos");	
+				long puntaje = (Long) unaTeoria.get("puntaje");	
 				long usos = (Long) unaTeoria.get("usos");
-				Long value;		
-				for (int j=0; j < Estado.limite; j++){
-					value = (Long) (unaTeoria.get("chancho "+ j));					
-					chanchos.add(new Chancho(0,(int) (long) value));
-				}
-				Collections.sort(chanchos);
-				Estado estado = new Estado(chanchos,(int)cantInicial, JSON.getABType((int)birdType));
+				                
+                double maderaIzqNormalizada = (double) unaTeoria.get("maderaIzqNormalizada");
+                double maderaArribaNormalizada = (double) unaTeoria.get("maderaArribaNormalizada");
+                double hieloIzqNormalizada = (double) unaTeoria.get("hieloIzqNormalizada");
+                double hieloArribaNormalizada = (double) unaTeoria.get("hieloArribaNormalizada");
+                double piedraIzqNormalizada = (double) unaTeoria.get("piedraIzqNormalizada");
+                double piedraArribaNormalizada = (double) unaTeoria.get("piedraArribaNormalizada");
+                
+				Estado estado = new Estado(JSON.getABType((int)birdType),maderaIzqNormalizada,maderaArribaNormalizada,
+                                        hieloIzqNormalizada,hieloArribaNormalizada,piedraIzqNormalizada,piedraArribaNormalizada);
 				Teoria teoria = new Teoria(estado);
 				teoria.setAccion((int)accion);
 				teoria.setUsos((int)usos);
-				teoria.setExitos((int)exitos);
-				teoria.setCantidadFinal((int)cantFinal);
-
+				teoria.setPuntaje((int)puntaje);
+				
 				teorias.add(teoria);
 			}	
 
