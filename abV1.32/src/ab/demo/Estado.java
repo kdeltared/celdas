@@ -79,26 +79,16 @@ public class Estado {
 		this.birdType = birdType;
 	}
 
-	//Comparar si los estados iniciales son iguales//legacy
+	//Comparar si los estados iniciales son iguales
 	public boolean Igual(Estado estado) {
-		if (this.cantidad_inicial != estado.getCantidadInicial()) {
-			return false;
-		}
-		if (this.birdType != estado.getBird()) {
-			return false;
-		}
-		List<Chancho> chanchos_list = estado.getChanchos();
-		Iterator<Chancho> iChanchos1 = chanchos_list.iterator();
-		Iterator<Chancho> iChanchos2 = this.chanchos.iterator();
-		Chancho chancho1,chancho2;
-		while (iChanchos1.hasNext()) {
-			chancho1 = iChanchos1.next();
-			chancho2 = iChanchos2.next();
-    		if (chancho1.getValue() != chancho2.getValue()) {
-				return false;
-			}
-		}
-		return true;
+	    if (this.birdType != estado.getBird()) {return false;}
+		if (this.maderaIzqNormalizada != estado.maderaIzqNormalizada){return false;}
+        if (this.maderaArribaNormalizada != estado.maderaArribaNormalizada){return false;}
+        if (this.hieloIzqNormalizada != estado.hieloIzqNormalizada){return false;}
+        if (this.hieloArribaNormalizada != estado.hieloArribaNormalizada){return false;}
+        if (this.piedraIzqNormalizada != estado.piedraIzqNormalizada){return false;}
+        if (this.piedraArribaNormalizada != estado.piedraArribaNormalizada){return false;}
+        return true;
 	}
     
     public double comparar(Estado estado){

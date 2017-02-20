@@ -204,6 +204,7 @@ public class ClientNaiveAgent implements Runnable {
 
 		//If the level is loaded (in PLAYING　state)but no slingshot detected, then the agent will request to fully zoom out.
 		while (sling == null && ar.checkState() == GameState.PLAYING) {
+            
 			System.out.println("no slingshot detected. Please remove pop up or zoom out");
 			
 			try {
@@ -233,7 +234,7 @@ public class ClientNaiveAgent implements Runnable {
 			if (!pigs.isEmpty()) {						
 				Point releasePoint = null;
 	//-------------------------------------------------------------------------//
-				//Solver solver = new Solver();
+				int cantidadInicialChanchos = pigs.size();
 				Sensor sensor = new Sensor(pigs, ar.getBirdTypeOnSling(),blocks);
                 List<Estado> estados = sensor.getEstados();
                 Teoria teoria_bis = solver.getTeoriaParaAplicar(estados);
@@ -259,7 +260,7 @@ public class ClientNaiveAgent implements Runnable {
 					// estimate the trajectory
 					ArrayList<Point> pts = tp.estimateLaunchPoint(sling, _tpt);
 
-					// do a high shot when entering a level to find an accurate velocity
+					// seleccionar si el tiro es parabolico o no
 					if (pts.size() > 1) {
 						releasePoint = pts.get(accion);
 					} else{
@@ -331,28 +332,26 @@ public class ClientNaiveAgent implements Runnable {
 								}
 							}
 						//-------------------------------------------------------------------------//
-							/*// capture Image
-							ar.fullyZoomOut();
-							screenshot = ar.doScreenShot();
+                        //evaluar puntaje obtenido
+                        //grabar teoria
+                        ar.fullyZoomOut();
+                        screenshot = ar.doScreenShot();
 
-							// process image
-							vision = new Vision(screenshot);
-							pigs = vision.findPigsMBR();
-							sensor.setPigs(pigs);
-							//Comprobar estado final
-							if(teoria.getUsos() == 1){
-								if (teoria.getCantidadFinal() >= sensor.getCantidad()) {
-									teoria.setCantidadFinal(sensor.getCantidad());
-									teoria.setExitos(1);
-								}
-							//Si era una teoria vieja me fijo en el exito o no del tiro
-							}else {
-								if (teoria.getCantidadFinal() >= sensor.getCantidad()) {
-									teoria.setExitos(teoria.getExitos()+1);
-								}	
-							}
-							teoria.setUsos(teoria.getUsos()+1);
-							solver.grabar();*/		
+                        // process image
+                        vision = new Vision(screenshot);
+                        pigs = vision.findPigsMBR();
+                        int cantidadFinalChanchos = pigs.size();
+                        int cantidadChanchosMatados = cantidadInicialChanchos - cantidadFinalChanchos;
+                        if( cantidadChanchosMatados < 0 ){
+                            cantidadChanchosMatados = 0;
+                        }
+                        
+                        teoria_bis.setUsos(teoria_bis.getUsos()+1);
+                        teoria_bis.setPuntaje(teoria_bis.getPuntaje()+cantidadChanchosMatados);
+                        solver.grabar();	
+						
+                        //-------------------------------------------------------------------------//
+                        
 						}
 						else
 							System.out.println("Scale is changed, can not execute the shot, will re-segement the image");
@@ -363,6 +362,7 @@ public class ClientNaiveAgent implements Runnable {
 			}
 		}
 		//Si era una teoria Naive Calculo los chanchos que mato
+        state = ar.checkState();
 		return state;
 	}
 

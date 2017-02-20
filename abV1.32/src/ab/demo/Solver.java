@@ -8,7 +8,7 @@ import ab.demo.JSON;
 
 public class Solver {
 	private List<Teoria> teorias;
-    double factorDeAjuste = 10.0;
+    double factorDeAjuste = 5.0;
     
     private double propIgualdad = 0.01;
 	private double propSimil = 0.10;
@@ -48,17 +48,18 @@ public class Solver {
 		this.agregarTeoria(teoria_inicial);
 	}
 	//Aca hay q hacer la magia de combinar teorias
-	public void agregarTeoria(Teoria teoria_nueva) {
+	public Teoria agregarTeoria(Teoria teoria_nueva) {
 		Iterator<Teoria> iTeoria = this.teorias.iterator();
 		Teoria teoria;
 		while (iTeoria.hasNext()) {
 			teoria = iTeoria.next();
 			if (teoria.esIgual(teoria_nueva)) {
 				System.out.println("Ya existia esa teoria");
-				return;
+				return teoria;
 			}
 		}
 		this.teorias.add(teoria_nueva);
+        return teoria_nueva;
 	}
     
 	public Teoria getTeoria(Estado estado) {
@@ -92,7 +93,8 @@ public class Solver {
 			Estado estado = iEstado.next();
 			posiblesTeorias.add(this.getTeoriaParaUnEstado(estado));
         }
-        return seleccionarTeoria(posiblesTeorias);
+        Teoria teoriaSeleccionada = seleccionarTeoria(posiblesTeorias);
+        return this.agregarTeoria(teoriaSeleccionada);
                 
     }
     
@@ -118,6 +120,8 @@ public class Solver {
         //tel empanadas 
         Teoria teoriaRandom = new Teoria(estado);
         teoriaRandom.setAccion((int) (Math.random()+0.5));
+        teoriaRandom.setUsos(0);
+        teoriaRandom.setPuntaje(0);
         
         Teoria teoriaNueva = null;
         //Si existen teorias iguales las utilizo
