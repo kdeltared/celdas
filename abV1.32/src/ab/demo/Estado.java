@@ -1,5 +1,4 @@
 package ab.demo;
-import ab.demo.Chancho;
 import ab.demo.Sensor;
 import ab.vision.ABType;
 import java.util.*;
@@ -7,9 +6,6 @@ import ab.vision.ABObject;
 
 
 public class Estado {
-	private List<Chancho> chanchos; //legacy
-	private int cantidad_inicial; //legacy
-	public static int limite = 3; //legacy
 	
     private double propIgualdad = 0.01;
 	private int boundsCentrado = 20;
@@ -25,18 +21,8 @@ public class Estado {
 	    
     private ABObject pig;
     
-    //legacy
-	public Estado(Sensor sensor) {
-		this.chanchos = sensor.getChanchos();
-		this.cantidad_inicial = sensor.getCantidad();
-        this.birdType = sensor.getBird();
-        
-	}
-    
     public Estado(Sensor sensor,ABObject pig) {
-		this.chanchos = sensor.getChanchos(); //legacy
-		this.cantidad_inicial = sensor.getCantidad(); //legacy
-        
+		
         this.pig = pig;
 		this.birdType = sensor.getBird();
         
@@ -72,13 +58,7 @@ public class Estado {
         this.piedraArribaNormalizada=piedraArribaNormalizada;
     }
     
-    //legacy
-	public Estado(List<Chancho> chanchos, int cantidad_inicial, ABType birdType) {
-		this.chanchos = chanchos;
-		this.cantidad_inicial = cantidad_inicial;
-		this.birdType = birdType;
-	}
-
+   
 	//Comparar si los estados iniciales son iguales
 	public boolean Igual(Estado estado) {
 	    if (this.birdType != estado.getBird()) {return false;}
@@ -103,13 +83,7 @@ public class Estado {
                       Math.pow((this.piedraArribaNormalizada - estado.piedraArribaNormalizada),2));
         return sum;
 	}
-    
-	public int getCantidadInicial() {
-		return this.cantidad_inicial;
-	}
-	public List<Chancho> getChanchos() {
-		return this.chanchos;
-	}
+   
 	public ABType getBird() {
 		return this.birdType;
 	}

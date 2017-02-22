@@ -125,8 +125,9 @@ public class ClientNaiveAgent implements Runnable {
 		this.solver = new Solver();
 		
 		while (true) {	
+            System.out.println("**** Entrando a solve");
 			state = solve();
-			
+			System.out.println("**** Solve resuleto con estado: "+state);
 			//If the level is solved , go to the next level
 			if (state == GameState.WON) {
 							
@@ -205,7 +206,7 @@ public class ClientNaiveAgent implements Runnable {
 		//If the level is loaded (in PLAYING　state)but no slingshot detected, then the agent will request to fully zoom out.
 		while (sling == null && ar.checkState() == GameState.PLAYING) {
             
-			System.out.println("no slingshot detected. Please remove pop up or zoom out");
+			System.out.println("no slingshot detected. Please remove pop up or zoom out, estado :" + ar.checkState());
 			
 			try {
 				Thread.sleep(1000);
@@ -234,14 +235,28 @@ public class ClientNaiveAgent implements Runnable {
 			if (!pigs.isEmpty()) {						
 				Point releasePoint = null;
 	//-------------------------------------------------------------------------//
-				int cantidadInicialChanchos = pigs.size();
+				System.out.println("** Calculando accion");
+                int cantidadInicialChanchos = pigs.size();
 				Sensor sensor = new Sensor(pigs, ar.getBirdTypeOnSling(),blocks);
                 List<Estado> estados = sensor.getEstados();
                 Teoria teoria_bis = solver.getTeoriaParaAplicar(estados);
 				                
                 ABObject pig = teoria_bis.getPig();
                 int accion = teoria_bis.getAccion();
-                System.out.println("Accion elejida: "+accion);
+                System.out.println("--Datos de la teoria--");
+                System.out.println("Accion elejida: " + accion);
+                System.out.println("Chancho elejido: " + pig);
+                System.out.println("Usos: " + teoria_bis.getUsos());
+                System.out.println("Puntaje: " + teoria_bis.getPuntaje());
+                System.out.println("Birdtype: " + teoria_bis.getEstado().birdType);
+                System.out.println("maderaIzqNormalizada: " + teoria_bis.getEstado().maderaIzqNormalizada);
+                System.out.println("maderaArribaNormalizada: " + teoria_bis.getEstado().maderaArribaNormalizada);
+                System.out.println("hieloIzqNormalizada: " + teoria_bis.getEstado().hieloIzqNormalizada);
+                System.out.println("hieloArribaNormalizada: " + teoria_bis.getEstado().hieloArribaNormalizada);
+                System.out.println("piedraIzqNormalizada: " + teoria_bis.getEstado().piedraIzqNormalizada);
+                System.out.println("piedraArribaNormalizada: " + teoria_bis.getEstado().piedraArribaNormalizada);
+                System.out.println("--Fin Datos de la teoria--");
+
 				//Comenzar a apuntar con el chancho elegido
 				Point _tpt = pig.getCenter();
 	//------------------------------------------------------------------------------//
@@ -284,11 +299,11 @@ public class ClientNaiveAgent implements Runnable {
 							case RedBird:
 								tapInterval = 0; break;               // start of trajectory
 							case YellowBird:
-								tapInterval = 65 + randomGenerator.nextInt(25);break; // 65-90% of the way
+								tapInterval = 75 + randomGenerator.nextInt(15);break; // 65-90% of the way
 							case WhiteBird:
 								tapInterval =  50 + randomGenerator.nextInt(20);break; // 50-70% of the way
 							case BlackBird:
-								tapInterval =  0;break; // 70-90% of the way
+								tapInterval = 70 + randomGenerator.nextInt(20);break; // 70-90% of the way
 							case BlueBird:
 								tapInterval =  65 + randomGenerator.nextInt(20);break; // 65-85% of the way
 							default:
@@ -334,6 +349,7 @@ public class ClientNaiveAgent implements Runnable {
 						//-------------------------------------------------------------------------//
                         //evaluar puntaje obtenido
                         //grabar teoria
+                        System.out.println("** Guardando resultados");
                         ar.fullyZoomOut();
                         screenshot = ar.doScreenShot();
 
@@ -345,7 +361,7 @@ public class ClientNaiveAgent implements Runnable {
                         if( cantidadChanchosMatados < 0 ){
                             cantidadChanchosMatados = 0;
                         }
-                        
+                        System.out.println("Chanchos matados: " + cantidadChanchosMatados);
                         teoria_bis.setUsos(teoria_bis.getUsos()+1);
                         teoria_bis.setPuntaje(teoria_bis.getPuntaje()+cantidadChanchosMatados);
                         solver.grabar();	
